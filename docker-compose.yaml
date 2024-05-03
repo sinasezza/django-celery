@@ -1,4 +1,8 @@
 services:
+  redis:
+    container_name: redis
+    image: redis:7.2.4-alpine
+
   django:
     container_name: django
     build:
@@ -11,5 +15,20 @@ services:
     environment:
       - DEBUG=1
       - ALLOWED_HOSTS=localhost,127.0.0.1
+    depends_on:
+      - redis
+
+  celery:
+    container_name: celery
+    build:
+      context: ./backend
+    volumes:
+      - ./backend:/app
+    environment:
+      - DEBUG=1
+      - ALLOWED_HOSTS=localhost,127.0.0.1
+    depends_on:
+      - redis
+    
 
 
