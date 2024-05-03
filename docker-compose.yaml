@@ -22,11 +22,13 @@ services:
     container_name: celery
     build:
       context: ./backend
+    command: celery -A core.celery worker --loglevel=INFO
     volumes:
       - ./backend:/app
     environment:
       - DEBUG=1
       - ALLOWED_HOSTS=localhost,127.0.0.1
+      - CELERY_BROKER_URL=redis://redis:6379/0
     depends_on:
       - redis
     
