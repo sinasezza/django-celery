@@ -1,10 +1,9 @@
 from celery import Celery
 
 
-app = Celery("task")
+app = Celery("celery_worker")
 app.config_from_object("celeryconfig")
 
+app.conf.imports = ("cworker.tasks",)
 
-@app.task
-def add_numbers():
-    return
+app.autodiscover_tasks()

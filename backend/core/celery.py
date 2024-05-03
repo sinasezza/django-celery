@@ -7,4 +7,9 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.settings")
 app = Celery(main="core", broker=os.environ.get("CELERY_BROKER_URL"))
 app.config_from_object("django.conf:settings", namespace="CELERY")
 
+app.conf.task_routes = {
+    'cworker.tasks.task1': {'queue': 'queue1'},
+    'cworker.tasks.task2': {'queue': 'queue2'},
+}
+
 app.autodiscover_tasks()

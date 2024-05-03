@@ -9,7 +9,7 @@ services:
       context: ./backend
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - ./backend:/app
+      - ./backend:/usr/src/app
     ports:
       - "8001:8000"
     environment:
@@ -22,9 +22,9 @@ services:
     container_name: celery
     build:
       context: ./backend
-    command: celery -A core.celery worker --loglevel=INFO
+    command: celery -A core.celery worker -l INFO -Q queue1
     volumes:
-      - ./backend:/app
+      - ./backend:/usr/src/app
     environment:
       - DEBUG=1
       - ALLOWED_HOSTS=localhost,127.0.0.1
@@ -37,9 +37,9 @@ services:
     container_name: celery2
     build:
       context: ./celeryworker
-    command: celery -A celerytask worker --loglevel=INFO
+    command: celery -A celerytask worker -l INFO -Q queue2
     volumes:
-      - ./celeryworker:/app
+      - ./celeryworker:/usr/src/app
     depends_on:
       - redis    
       - django
