@@ -31,6 +31,17 @@ services:
       - CELERY_BROKER_URL=redis://redis:6379/0
     depends_on:
       - redis
-    
+      - django
+  
+  celery2:
+    container_name: celery2
+    build:
+      context: ./celeryworker
+    command: celery -A celerytask worker --loglevel=INFO
+    volumes:
+      - ./celeryworker:/app
+    depends_on:
+      - redis    
+      - django
 
 
