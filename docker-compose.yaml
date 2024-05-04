@@ -1,4 +1,12 @@
 services:
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+
   redis:
     container_name: redis
     image: redis:7.2.4-alpine
@@ -22,7 +30,7 @@ services:
     container_name: celery
     build:
       context: ./backend
-    command: celery -A core.celery worker -l INFO -Q celery,celery:1,celery:2,celery:3
+    command: celery -A core.celery worker -l INFO -Q tasks
     volumes:
       - ./backend:/usr/src/app
     environment:
@@ -32,6 +40,7 @@ services:
     depends_on:
       - redis
       - django
+      - rabbitmq
   
 
 
