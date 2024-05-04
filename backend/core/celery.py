@@ -28,9 +28,10 @@ app.conf.worker_concurrency = 1
 
 
 @app.task(queue='tasks')
-def t1():
-    time.sleep(3)
-    return
+def t1(a, b, message=None):
+    result = a + b
+    if message:
+        result = f"{message} {result}"
 
 @app.task(queue='tasks')
 def t2():

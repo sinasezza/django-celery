@@ -1,5 +1,15 @@
 services:
 
+  flower:
+    image: mher/flower
+    ports:
+      - 5555:5555
+    environment:
+      - CELERY_BROKER_URL=amqp://guest:guest@rabbitmq:5672/
+    depends_on:
+      - rabbitmq
+
+
   rabbitmq:
     image: rabbitmq:management
     container_name: rabbitmq
@@ -36,7 +46,6 @@ services:
     environment:
       - DEBUG=1
       - ALLOWED_HOSTS=localhost,127.0.0.1
-      - CELERY_BROKER_URL=redis://redis:6379/0
     depends_on:
       - redis
       - django
