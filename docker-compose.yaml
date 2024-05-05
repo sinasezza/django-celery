@@ -40,7 +40,7 @@ services:
     container_name: celery
     build:
       context: ./backend
-    command: celery -A core.celery_config worker -l INFO -Q tasks
+    command: celery -A core.celery_config worker -l INFO -Q tasks,dead_letter
     volumes:
       - ./backend:/usr/src/app
     environment:
