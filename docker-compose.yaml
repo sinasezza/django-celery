@@ -46,6 +46,8 @@ services:
     environment:
       - DEBUG=1
       - ALLOWED_HOSTS=localhost,127.0.0.1
+      ### put your sdn here
+      - SENTRY_DSN=https://5e1cfc69d7bb9f390cbdcdc64de072c9@o4507242422665216.ingest.us.sentry.io/4507242427645952
     depends_on:
       - redis
       - django
