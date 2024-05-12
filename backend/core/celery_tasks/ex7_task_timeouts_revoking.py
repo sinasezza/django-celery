@@ -11,10 +11,12 @@ from core.celery_tasks.ex7_task_timeouts_revoking import execute_task_examples
 execute_task_examples()
 """
 
+
 @app.task(queue="tasks", time_limit=10)
 def long_running_task():
     sleep(6)
     return "Task completed successfully"
+
 
 @app.task(queue="tasks", bind=True)
 def process_task_result(self, result):
@@ -22,6 +24,7 @@ def process_task_result(self, result):
         return "Task was revoked, skipping result processing"
     else:
         return f"Task result: {result}"
+
 
 def execute_task_examples():
     result = long_running_task.delay()
@@ -36,7 +39,7 @@ def execute_task_examples():
     sleep(3)
     sys.stdout.write(task.status)
 
-    if task.status == 'REVOKED':
+    if task.status == "REVOKED":
         process_task_result.delay(None)  # Task was revoked, process accordingly
     else:
-        process_task_result.delay(task.result) 
+        process_task_result.delay(task.result)

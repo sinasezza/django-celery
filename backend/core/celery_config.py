@@ -18,7 +18,12 @@ sentry_dsn = os.environ.get("SENTRY_DSN")
 
 print(f"sentry dsn is {sentry_dsn} \n\n\n")
 
-sentry_sdk.init(dsn=sentry_dsn, integrations=[CeleryIntegration(),])
+sentry_sdk.init(
+    dsn=sentry_dsn,
+    integrations=[
+        CeleryIntegration(),
+    ],
+)
 
 
 app.conf.task_queues = [

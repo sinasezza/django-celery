@@ -7,8 +7,9 @@ from core.celery_tasks.ex10_Error_Tracking_and_Monitoring_with_Sentry import div
 divide_numbers.delay(10, 0)
 """
 
+
 @app.task(queue="tasks")
-def divide_numbers(a,b):
+def divide_numbers(a, b):
     try:
         result = a / b
         return result

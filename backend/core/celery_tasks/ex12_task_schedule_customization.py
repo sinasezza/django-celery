@@ -19,10 +19,12 @@ from core.celery_config import app
 #     }
 # }
 
+
 @app.task(queue="tasks")
 def task1(a, b, **kwargs):
     result = a + b
     print(f"Running task 1 - {result}")
+
 
 @app.task(queue="tasks")
 def task2():
